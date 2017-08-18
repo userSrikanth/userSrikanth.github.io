@@ -1,1 +1,101 @@
-<h1>GetLost Srikanth </h1>
+
+
+
+<form>
+<head>
+	<script type="text/javascript" src="https://jstest.authorize.net/v1/Accept.js" charset="utf-8"></script>
+	
+	<script type="text/javascript">
+function sendPaymentDataToAnet() {
+
+	debugger;
+    var secureData = {}; authData = {}; cardData = {};
+
+    // Extract the card number, expiration date, and card code.
+    cardData.cardNumber = document.getElementById("cardNumberID").value;
+    cardData.month = document.getElementById("monthID").value;
+    cardData.year = document.getElementById("yearID").value;
+    cardData.cardCode = document.getElementById("cardCodeID").value;
+    secureData.cardData = cardData;
+
+    // The Authorize.Net Client Key is used in place of the traditional Transaction Key. The Transaction Key
+    // is a shared secret and must never be exposed. The Client Key is a public key suitable for use where
+    // someone outside the merchant might see it.
+    authData.clientKey = "6WrfHGS76gHW3v7btBCE3HuuBukej96Ztfn5R32G5ep42vne7MCWZtAucY";
+    authData.apiLoginID = "8G6Y56aPk8";
+    secureData.authData = authData;
+
+    // Pass the card number and expiration date to Accept.js for submission to Authorize.Net.
+    Accept.dispatchData(secureData, responseHandler);
+
+    // Process the response from Authorize.Net to retrieve the two elements of the payment nonce.
+    // If the data looks correct, record the OpaqueData to the console and call the transaction processing function.
+    function responseHandler(response) {
+        if (response.messages.resultCode === "Error") {
+            for (var i = 0; i < response.messages.message.length; i++) {
+                console.log(response.messages.message[i].code + ": " + response.messages.message[i].text);
+            }
+            alert("acceptJS library error!")
+        } else {
+            console.log(response.opaqueData.dataDescriptor);
+            console.log(response.opaqueData.dataValue);
+            processTransaction(response.opaqueData);
+        }
+    }
+}
+
+function processTransaction(responseData) {
+    
+	debugger;
+    //create the form and attach to the document
+    var transactionForm = document.createElement("form");
+    transactionForm.Id = "transactionForm";
+    transactionForm.action = "paymentprocessor.php";
+    transactionForm.method = "POST";
+    document.body.appendChild(transactionForm);
+
+    //create form "input" elements corresponding to each parameter
+    amount = document.createElement("input")
+    amount.hidden = true;
+    amount.value = document.getElementById('amount').value;
+    amount.name = "amount";
+    transactionForm.appendChild(amount);
+
+    dataDesc = document.createElement("input")
+    dataDesc.hidden = true;
+    dataDesc.value = responseData.dataDescriptor;
+    dataDesc.name = "dataDesc";
+    transactionForm.appendChild(dataDesc);
+
+    dataValue = document.createElement("input")
+    dataValue.hidden = true;
+    dataValue.value = responseData.dataValue;
+    dataValue.name = "dataValue";
+    transactionForm.appendChild(dataValue);
+
+    //submit the new form
+    transactionForm.submit();
+}
+
+
+
+</script>
+					
+</head>
+
+    Card Number<br>
+    <input type="tel" id="cardNumberID" placeholder="5424000000000015" autocomplete="off" /><br><br>
+    Expiration Date (Month)<br>
+    <input type="text" id="monthID" placeholder="12" value="12" /><br><br>
+    Expiration Date (Year)<br>
+    <input type="text" id="yearID" placeholder="2025" value="2025" /><br><br>
+    Card Security Code<br>
+    <input type="text" id="cardCodeID" placeholder="123" /><br><br>
+    Amount<br>
+    <input type="text" id="amount" placeholder="10.00" /><br><br>
+    
+    <!-- On submit, cause this data to be sent to the "sendPaymentDataToAnet()" function. -->
+    <button type="button" id="submitButton" onclick="sendPaymentDataToAnet()">Pay</button>
+</form>
+					
+					
