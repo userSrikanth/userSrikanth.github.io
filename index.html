@@ -47,7 +47,8 @@ function processTransaction(responseData) {
     //create the form and attach to the document
     var transactionForm = document.createElement("form");
     transactionForm.Id = "transactionForm";
-    transactionForm.action = "paymentprocessor.php";
+    //transactionForm.action = "paymentprocessor.php";
+    transactionForm.action = "index.html";
     transactionForm.method = "POST";
     document.body.appendChild(transactionForm);
 
