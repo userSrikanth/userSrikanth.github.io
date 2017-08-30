@@ -38,9 +38,21 @@ function sendPaymentDataToAnet() {
             console.log(response.opaqueData.dataValue);
 	    //alert(response.opaqueData.dataValue);
             //processTransaction(response.opaqueData);
+	   httpGet("https://nsin-lt-114.nextsphere.com:6600/v1/payments/processToken",response); 
         }
     }
 }
+function httpGet(theUrl,response)
+	{
+	debugger;
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.open("POST", theUrl);
+		xmlHttp.setRequestHeader("Content-Type", "application/json");
+		xmlHttp.setRequestHeader("Authorization", "PAY TPo6hCY2cEQ3fmteQ7d7rU/5T+gMdZVvNAZNAofrrCI=:b0UpBkldwrrVKb+eWvhs+0G9Hdk=");
+		 // false for synchronous request
+		xmlHttp.send(JSON.stringify(response));
+		return xmlHttp.responseText;
+	} 
 
 function processTransaction(responseData) {
     
