@@ -47,8 +47,11 @@ function httpGet(theUrl,response)
 	debugger;
 		var xmlHttp = new XMLHttpRequest();
 		xmlHttp.open("POST", theUrl);
-		xmlHttp.setRequestHeader("Content-Type", "application/json");
-		xmlHttp.setRequestHeader("Access-Control-Allow-Origin","*"); 
+		
+		xmlHttp.header("Access-Control-Allow-Origin", "*");
+		xmlHttp.header("Content-Type", "application/json");	
+  		xmlHttp.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+ 		xmlHttp.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization"); 
 		xmlHttp.setRequestHeader("Authorization", "PAY TPo6hCY2cEQ3fmteQ7d7rU/5T+gMdZVvNAZNAofrrCI=:b0UpBkldwrrVKb+eWvhs+0G9Hdk=");
 		 // false for synchronous request
 		xmlHttp.send(JSON.stringify(response));
