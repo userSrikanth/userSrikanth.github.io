@@ -48,7 +48,7 @@ function httpGet(theUrl,response)
 		var xmlHttp = new XMLHttpRequest();
 		xmlHttp.open("POST", theUrl);
 		
-		xmlHttp.header("Access-Control-Allow-Origin", "*");
+		xmlHttp.header("Access-Control-Allow-Origin: *");
 		xmlHttp.header("Content-Type", "application/json");	
   		xmlHttp.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
  		xmlHttp.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization"); 
