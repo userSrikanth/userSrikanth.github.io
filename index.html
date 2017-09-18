@@ -34,8 +34,10 @@ function sendPaymentDataToAnet() {
             }
             alert("acceptJS library error!")
         } else {
-            console.log(response.opaqueData.dataDescriptor);
+            console.log(response.opaqueData.dataDescriptor);		
             console.log(response.opaqueData.dataValue);	    
+	    alert(response.opaqueData.dataDescriptor);
+            alert(response.opaqueData.dataValue);
         }
     }
 }
